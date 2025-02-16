@@ -1,3 +1,5 @@
+import re
+
 numbers = {
     "one": (1, 0),
     "two": (2, 0),
@@ -10,27 +12,28 @@ numbers = {
     "nine": (9, 0),
     "ten": (10, 0),
     "eleven": (11, 0),
-    "twelwe": (12, 0),
+    "twelve": (12, 0),
     "thirteen": (13, 1),
     "fifteen": (15, 1),
     "twenty": (20, 1),
     "thirty": (30, 1),
+    "forty": (40, 1),
     "fifty": (50, 1),
     "hundred": (10**2, 2),
-    "thousand": (10**3, 2),
-    "million": (10**6, 2),
-    "billion": (10**9, 2),
-    "trillion": (10**12, 2),
-    "quadrillion": (10**15, 2)
+    "thousand": (10**3, 3),
+    "million": (10**6, 3),
+    "billion": (10**9, 3),
+    "trillion": (10**12, 3),
+    "quadrillion": (10**15, 3)
 }
 
 def stringtonumber(text):
     try:
-      text_lower = text.lower() # make text lowercase
-
-      text_list = text_lower.split() # split the seperated texts in a list
+      text_lower = text.lower().strip() # make text lowercase
+      text_list = re.split(r'[\s-]+', text_lower)  # Handle spaces and hyphenated numbers like "twenty-five"
 
       sum = 0
+      sumlist = []
       for no in text_list:
           for key, value in numbers.items():
               if no.find(key) != -1:
@@ -43,9 +46,17 @@ def stringtonumber(text):
                   elif value[1] == 2:
                       sum *= value[0]
                       break # Breaks the inner loop
+                  elif value[1] == 3:
+                      sum *= value[0]
+                      sumlist.append(sum)
+                      sum = 0
                   else:
                       sum += value[0]
                       break # Breaks the inner loop
+                  
+      if len(sumlist) != 0:
+          for x in sumlist:
+              sum += x
       
       if sum == 0:
           return None # Number entered wrongly
@@ -66,3 +77,4 @@ def stringtonumber(text):
     except Exception as e:
         print(e)
 
+print(stringtonumber("one million two HUNDred thirty-four thousand five hundred sixty-seven"))
