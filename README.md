@@ -1,2 +1,4 @@
-# string-to-number
+# Cemre Code Lab
+
+## string-to-number
 A program that takes a user-entered string and converts it into a number.

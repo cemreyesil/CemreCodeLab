@@ -76,5 +76,3 @@ def stringtonumber(text):
       return fixed_number
     except Exception as e:
         print(e)
-
-print(stringtonumber("one million two HUNDred thirty-four thousand five hundred sixty-seven"))
